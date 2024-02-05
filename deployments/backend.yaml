@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: x03xd/amazon_clone:v0.3api
+        ports:
+        - containerPort: 8000
+        command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+        env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: secret-key
+          - name: FIXER_API_URL
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: fixer-api-url
+          - name: FIXER_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: fixer-api-key
+          - name: STRIPE_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: stripe-secret-key
+          - name: STRIPE_ENDPOINT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: stripe-endpoint-secret
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: postgres-db
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: postgres-user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: postgres-password
+          - name: FRONTEND_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: frontend-host
+          - name: PROTOCOL
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: protocol
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: NodePort
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30010

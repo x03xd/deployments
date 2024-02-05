@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  frontend-host: localhost:34541
+  backend-host: 127.0.0.1:8000
+  celery-result-backend: "rpc://"
+  django_settings_module: "amazon.settings"
+  protocol: "http"
+  fixer-api-url: "http://data.fixer.io/api/latest"
