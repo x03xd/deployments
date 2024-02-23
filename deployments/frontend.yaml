@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: x03xd/amazon_clone:v0.1ui
+        image: x03xd/amazon_clone:v1.2ui
         ports:
         - containerPort: 3000
         env:
