@@ -14,32 +14,25 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: x03xd/amazon_clone:v1.5ui
+        image: x03xd/amazon_clone:v1.2ui
         ports:
         - containerPort: 3000
-        env:
-          - name: BACKEND_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: configmap
-                key: backend-host
-          - name: FRONTEND_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: configmap
-                key: frontend-host
-          - name: PROTOCOL
-            valueFrom:
-              configMapKeyRef:
-                name: configmap
-                key: protocol
+        volumeMounts:
+        - name: env-config
+          mountPath: /app
+      volumes:
+      - name: env-config
+        configMap:
+          name: frontend-configmap
+          items:
+          - key: app.env
+            path: .env
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
 spec:
-  type: NodePort
   selector:
     app: frontend
   ports:
