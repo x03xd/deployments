@@ -3,9 +3,7 @@ kind: ConfigMap
 metadata:
   name: frontend-configmap
 data:
-  appConfig.js: |
- var appConfig = {
-  FRONTEND_HOST: "example.local:TEST",
-  BACKEND_HOST: "example.local:TEST/api",
-  PROTOCOL: "http",
- };
+  app.env: |-
+    FRONTEND_HOST: "example.local:TEST"
+    BACKEND_HOST: "example.local:TEST/api"
+    PROTOCOL: "http"
