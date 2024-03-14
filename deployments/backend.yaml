@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: x03xd/amazon_clone:v0.3api
+        image: x03xd/amazon_clone:v0.5api
         ports:
         - containerPort: 8000
         command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
