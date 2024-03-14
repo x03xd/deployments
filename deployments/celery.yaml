@@ -14,18 +14,16 @@ spec:
     spec:
       containers:
       - name: celery-container
-        image: x03xd/amazon_clone:v0.2api
+        image: x03xd/amazon_clone:v0.5api
         ports:
           - containerPort: 8100
-        command: ["sh", "-c"]
-        args:
-          - "celery -A worker beat loglevel=info && celery -A amazon beat loglevel=info"
+        command: ["celery", "-A", "amazon", "worker", "--loglevel=info"]
         env:
-        - name: CELERY_BROKER_URL
-          valueFrom:
-            configMapKeyRef:
-              name: configmap
-              key: amqp-host
+        #- name: CELERY_BROKER_HOST
+        #  valueFrom:
+        #    configMapKeyRef:
+        #      name: configmap
+        #      key: amqp-host
         - name: CELERY_RESULT_BACKEND
           valueFrom:
             configMapKeyRef:
@@ -36,7 +34,6 @@ spec:
             configMapKeyRef:
               name: configmap
               key: django_settings_module
-
 ---
 apiVersion: v1
 kind: Service
@@ -47,5 +44,5 @@ spec:
     app: beat
   ports:
     - protocol: TCP
-      port: 3400
+      port: 8100
       targetPort: 8100
