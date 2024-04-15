@@ -4,6 +4,6 @@ metadata:
   name: frontend-configmap
 data:
   app.env: |-
-    FRONTEND_HOST: "example.local:TEST"
-    BACKEND_HOST: "example.local:TEST/api"
+    FRONTEND_HOST: "localhost:30005"
+    BACKEND_HOST: "backend.default.svc.cluster.local:8000/api"
     PROTOCOL: "http"
