@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: configmap
 data:
-  frontend-host: localhost:34541
-  backend-host: 127.0.0.1:8000
+  frontend-host: localhost:30005
+  backend-host: backend.default.svc.cluster.local:8000
   celery-result-backend: "rpc://"
   django_settings_module: "amazon.settings"
   protocol: "http"
